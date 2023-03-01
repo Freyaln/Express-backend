@@ -8,7 +8,6 @@ const AuthController = {
     login: async (req, res) => {
         const email = req.body.email;
         const password = req.body.password;
-        console.log(password)
 
         try {
             const user = await AuthModel.login(email)
@@ -20,12 +19,11 @@ const AuthController = {
             const isPasswordValid = await bcrypt.compare(password, user.password);
 
             if (!isPasswordValid) {
-                console.log('password')
                 return res.status(401).send('Invalid email or password');
             }
 
             if (user.jwtToken) {
-                return res.sendStatus(200);
+                return res.status(200).json({token: user.jwtToken});
             }
             const payload = {
                 userId: user._id, email: user.email,
@@ -38,8 +36,7 @@ const AuthController = {
 
             await user.updateOne({jwtToken: token});
 
-            res.type('application/json')
-            res.header('Authorization', `Bearer ${token}`).json({token});
+            res.setHeader('Authorization', `Bearer ${token}`).sendStatus(200).json({token});
         } catch(error) {
             console.error(error);
             res.status(500).send('Server error');
