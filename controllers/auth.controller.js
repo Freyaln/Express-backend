@@ -23,7 +23,7 @@ const AuthController = {
             }
 
             if (user.jwtToken) {
-                return res.status(200).json({token: user.jwtToken, username: user.username, id: user._id});
+                return res.status(200).json({token: user.jwtToken, username: user.username, id: user._id, diets: user.diets, allergies: user.allergies});
             }
             const payload = {
                 userId: user._id, email: user.email,

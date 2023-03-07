@@ -2,7 +2,6 @@ const ObjectId = require('mongodb').ObjectId
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    _id: ObjectId,
     username: String,
     password: String,
     email: String,

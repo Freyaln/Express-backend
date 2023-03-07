@@ -1,11 +1,10 @@
 const express = require('express')
 const router = express.Router()
 
-
-const userRouter = require('./users.router');
 const authRouter = require('./auth.router');
+const registerRouter = require('./register.router');
 
-//routers.use('/signin', userRouter)
 router.use('/auth', authRouter)
+router.use('/register', registerRouter)
 
 module.exports = router;
