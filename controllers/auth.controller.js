@@ -23,7 +23,7 @@ const AuthController = {
             }
 
             if (user.jwtToken) {
-                return res.status(200).json({token: user.jwtToken});
+                return res.status(200).json({token: user.jwtToken, username: user.username, id: user._id});
             }
             const payload = {
                 userId: user._id, email: user.email,
@@ -33,7 +33,6 @@ const AuthController = {
             };
             const secret = process.env.JWT_SECRET;
             const token = jwt.sign(payload, secret, options);
-
             await user.updateOne({jwtToken: token});
 
             res.setHeader('Authorization', `Bearer ${token}`).sendStatus(200).json({token});
