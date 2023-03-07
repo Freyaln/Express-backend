@@ -1,8 +1,6 @@
 const RegisterModel = require('../models/register.model');
 const AuthModel = require("../models/auth.model");
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const mongoose = require("mongoose");
 require('dotenv').config();
 
 const RegisterController = {
@@ -18,7 +16,10 @@ const RegisterController = {
             const hashedPassword = bcrypt.hashSync(password, 10);
             const date = new Date();
             const user = await RegisterModel.createNewUser({email, hashedPassword, username, date, diets, allergies})
-                 .then(res => console.log(res))
+
+            if(user) {
+                res.sendStatus(200);
+            }
         } catch(error) {
             console.error(error);
             res.status(500).send('Server error');
