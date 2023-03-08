@@ -40,6 +40,44 @@ const AuthController = {
             console.error(error);
             res.status(500).send('Server error');
         }
+    },
+
+    checkPassword: async (req, res) => {
+        const password = req.body.oldPassword;
+        const id = req.body.id
+
+        try {
+            const user = await AuthModel.checkPassword(id)
+
+            const isPasswordValid = await bcrypt.compare(password, user.password);
+
+            if (!isPasswordValid) {
+                return res.status(403).send('Invalid password');
+            }
+
+            res.sendStatus(200);
+        } catch(error) {
+            console.error(error);
+            res.status(500).send('Server error');
+        }
+
+    },
+    changePassword: async (req, res) => {
+        const password = req.body.newPassword;
+        const id = req.body.id;
+
+        const hashedPassword = bcrypt.hashSync(password, 10);
+
+        try {
+            const passwordUpdated = await AuthModel.changePassword(id, hashedPassword)
+
+            if (passwordUpdated) {
+                res.sendStatus(200);
+            }
+        } catch(error) {
+            console.error(error);
+            res.status(500).send('Server error');
+        }
     }
 }
 
