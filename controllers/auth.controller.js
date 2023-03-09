@@ -78,6 +78,21 @@ const AuthController = {
             console.error(error);
             res.status(500).send('Server error');
         }
+    },
+    reconnect: async (req, res) => {
+        const token = req.body.token;
+
+        try {
+            const user = await AuthModel.reconnectByToken(token)
+
+            if (user) {
+                console.log(user)
+                return res.status(200).json({username: user.username, id: user._id, diets: user.diets, allergies: user.allergies});
+            }
+        } catch(error) {
+            console.error(error);
+            res.status(500).send('Server error');
+        }
     }
 }
 

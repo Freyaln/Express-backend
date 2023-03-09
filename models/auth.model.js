@@ -10,6 +10,9 @@ const AuthModel = {
     },
     changePassword: (id, updatedPassword) => {
         return User.findByIdAndUpdate(id, {password: updatedPassword})
+    },
+    reconnectByToken: (token) => {
+        return User.findOne({jwtToken: token}).exec();
     }
 };
 
