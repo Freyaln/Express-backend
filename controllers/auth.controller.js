@@ -79,6 +79,36 @@ const AuthController = {
             res.status(500).send('Server error');
         }
     },
+    changeEmail: async (req, res) => {
+        const email = req.body.newEmail;
+        const id = req.body.id;
+
+        try {
+            const updatedEmail = await AuthModel.changeEmail(id, email)
+
+            if (updatedEmail) {
+                res.sendStatus(200);
+            }
+        } catch(error) {
+            console.error(error);
+            res.status(500).send('Server error');
+        }
+    },
+    changeDiets: async (req, res) => {
+        const diets = req.body.diets;
+        const id = req.body.id;
+
+        try {
+            const updatedDiets = await AuthModel.changeDiets(id, diets)
+
+            if (updatedDiets) {
+                res.sendStatus(200);
+            }
+        } catch(error) {
+            console.error(error);
+            res.status(500).send('Server error');
+        }
+    },
     reconnect: async (req, res) => {
         const token = req.body.token;
 
@@ -86,7 +116,6 @@ const AuthController = {
             const user = await AuthModel.reconnectByToken(token)
 
             if (user) {
-                console.log(user)
                 return res.status(200).json({username: user.username, id: user._id, diets: user.diets, allergies: user.allergies});
             }
         } catch(error) {
