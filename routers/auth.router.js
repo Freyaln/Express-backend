@@ -9,5 +9,6 @@ router.post('/changepwd', AuthController.changePassword);
 router.post('/changemail', AuthController.changeEmail);
 router.post('/changediets', AuthController.changeDiets);
 router.post('/reconnect', AuthController.reconnect);
+router.post('/updateuser', AuthController.updateUserInfos);
 
 module.exports = router;

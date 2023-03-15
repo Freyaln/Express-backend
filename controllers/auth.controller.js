@@ -102,7 +102,8 @@ const AuthController = {
             const updatedDiets = await AuthModel.changeDiets(id, diets)
 
             if (updatedDiets) {
-                res.sendStatus(200);
+                const { diets } = updatedDiets
+                res.send(diets);
             }
         } catch(error) {
             console.error(error);
@@ -114,6 +115,20 @@ const AuthController = {
 
         try {
             const user = await AuthModel.reconnectByToken(token)
+
+            if (user) {
+                return res.status(200).json({username: user.username, id: user._id, diets: user.diets, allergies: user.allergies});
+            }
+        } catch(error) {
+            console.error(error);
+            res.status(500).send('Server error');
+        }
+    },
+    updateUserInfos: async (req, res) => {
+        const id = req.body.id;
+
+        try {
+            const user = await AuthModel.updateUser(id)
 
             if (user) {
                 return res.status(200).json({username: user.username, id: user._id, diets: user.diets, allergies: user.allergies});
