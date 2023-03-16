@@ -23,7 +23,7 @@ const AuthController = {
             }
 
             if (user.jwtToken) {
-                return res.status(200).json({token: user.jwtToken, username: user.username, id: user._id, diets: user.diets, allergies: user.allergies});
+                return res.status(200).json({token: user.jwtToken, username: user.username, id: user._id, diets: user.diets, allergies: user.allergies, fav_recipes_id: user.fav_recipes_id});
             }
             const payload = {
                 userId: user._id, email: user.email,
@@ -117,7 +117,7 @@ const AuthController = {
             const user = await AuthModel.reconnectByToken(token)
 
             if (user) {
-                return res.status(200).json({username: user.username, id: user._id, diets: user.diets, allergies: user.allergies});
+                return res.status(200).json({username: user.username, id: user._id, diets: user.diets, allergies: user.allergies, fav_recipes_id: user.fav_recipes_id});
             }
         } catch(error) {
             console.error(error);
@@ -131,7 +131,7 @@ const AuthController = {
             const user = await AuthModel.updateUser(id)
 
             if (user) {
-                return res.status(200).json({username: user.username, id: user._id, diets: user.diets, allergies: user.allergies});
+                return res.status(200).json({username: user.username, id: user._id, diets: user.diets, allergies: user.allergies, fav_recipes_id: user.fav_recipes_id});
             }
         } catch(error) {
             console.error(error);

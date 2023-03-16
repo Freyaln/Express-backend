@@ -6,7 +6,10 @@ const RecipeModel = {
     },
     getFavorites: (userId) => {
         return User.findById({_id: userId}).exec();
-    }
+    },
+    removeFavorites: (userId, recipeId) => {
+        return User.findByIdAndUpdate(userId, {$pull: {fav_recipes_id: recipeId}})
+    },
 }
 
 module.exports = RecipeModel;

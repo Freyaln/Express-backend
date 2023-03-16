@@ -21,7 +21,27 @@ const RecipeController = {
             console.error(error);
             res.status(500).send('Server error');
         }
-    }
+    },
+    removeFavorites: async (req, res) => {
+        const userId = req.body.userId;
+        const recipeId = req.body.recipeId;
+
+        try {
+            const userFav = await RecipeModel.removeFavorites(userId, recipeId);
+
+            if (userFav) {
+                const updatedUserFav = await RecipeModel.getFavorites(userId);
+
+                if(updatedUserFav) {
+                    const { fav_recipes_id } = updatedUserFav;
+                    res.send(fav_recipes_id);
+                }
+            }
+        } catch(error) {
+            console.error(error);
+            res.status(500).send('Server error');
+        }
+    },
 }
 
 module.exports = RecipeController;
