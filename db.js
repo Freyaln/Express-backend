@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-
-const username = 'freyaln';
-const psw = 'T0qQn1m6wz6Uvr1u';
-const cluster = 'portfolio.0sd73';
-const dbName = 'recipesapp';
+const username = process.env.DB_USERNAME;
+const psw = process.env.DB_PSW;
+const cluster = process.env.DB_CLUSTER;
+const dbName = process.env.DB_COLLECTION;
 
 mongoose.connect('mongodb+srv://'+username+':'+psw+'@'+cluster+'.mongodb.net/'+dbName+'?retryWrites=true&w=majority',
     {
